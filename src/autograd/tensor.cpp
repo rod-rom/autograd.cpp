@@ -1,8 +1,8 @@
-#include "autograd++/tensor.h"
+#include "autograd/tensor.h"
 
 // Constructor for scalar value
 Tensor::Tensor(double value, bool requires_grad): requires_grad(requires_grad) {
-    data = {value};
+    data = { {value} };
     shape = {1};
 }
 
@@ -21,7 +21,7 @@ std::ostream& operator<<(std::ostream& os, const Tensor& tensor) {
         os << "shape=" << tensor.data.size() << "x" << tensor.data[0].size(); // Matrix shape
     }
     os << ", requires_grad=" << (tensor.requires_grad ? "true" : "false") << ")";
-    return os
+    return os;
 }
 
 // Recursive function for extracting shape from nested initializer list
