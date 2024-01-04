@@ -37,3 +37,6 @@
 # Build directories
 build/
 out/
+
+# User-specific settings
+autograd.vcxproj.user
