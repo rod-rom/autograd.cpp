@@ -44,3 +44,12 @@ void Tensor::extractData(const T& nestedList) {
         }
     }
 }
+
+const std::vector<int>& Tensor::getShape() const {
+    return shape;
+}
+
+const std::vector<std::vector<double>>& Tensor::getData() const {
+    return data;
+}
+

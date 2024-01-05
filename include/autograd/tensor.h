@@ -16,9 +16,13 @@ public:
     // Overloaded << operator for printing
     friend std::ostream& operator<<(std::ostream& os, const Tensor& tensor);
 
+    const std::vector<int>& Tensor::getShape() const;
+
+    const std::vector<std::vector<double>>& Tensor::getData() const;
+
 private:
     std::vector<std::vector<double>> data;
-    std::vector<size_t> shape;
+    std::vector<int> shape;
     bool requires_grad;
 
     // Recursive function for extracting shape from nested initializer list
@@ -28,4 +32,7 @@ private:
     // Recursive function for extracting data from nested initializer list
     template <typename T>
     void extractData(const T& nestedList);
+
+    template <typename T>
+    void extractShapeAndData(const T& nestedList);
 };
