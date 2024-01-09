@@ -32,7 +32,4 @@ private:
     // Recursive function for extracting data from nested initializer list
     template <typename T>
     void extractData(const T& nestedList);
-
-    template <typename T>
-    void extractShapeAndData(const T& nestedList);
 };
