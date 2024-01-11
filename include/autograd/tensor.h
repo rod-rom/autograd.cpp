@@ -9,27 +9,21 @@
 
 class Tensor {
 public:
-    // Constructors
-    Tensor(double value, bool requires_grad = false);
-    Tensor(std::initializer_list<std::initializer_list<std::initializer_list<double>>> nestedList, bool requires_grad = false);
-
-    // Overloaded << operator for printing
-    friend std::ostream& operator<<(std::ostream& os, const Tensor& tensor);
-
-    const std::vector<int>& Tensor::getShape() const;
-
-    const std::vector<std::vector<double>>& Tensor::getData() const;
-
-private:
-    std::vector<std::vector<double>> data;
-    std::vector<int> shape;
     bool requires_grad;
 
-    // Recursive function for extracting shape from nested initializer list
-    template <typename T>
-    void extractShape(const T& nestedList);
+    Tensor(double value, bool requires_grad = false);
 
-    // Recursive function for extracting data from nested initializer list
-    template <typename T>
-    void extractData(const T& nestedList);
+    template <typename T, typename... Args>
+    Tensor(const std::initializer_list<T>& values, Args... dims, bool requires_grad = false);
+
+    friend std::ostream& operator<<(std::ostream& os, const Tensor& tensor);
+    const std::vector<int>& getShape() const;
+    const std::vector<double>& getData() const;
+
+private:
+    std::vector<double> data_;
+    std::vector<int> dims_;
+    
+    template <typename T, typename... Args>
+    void initData(const std::initializer_list<T>& values, int dim, Args... dims);
 };

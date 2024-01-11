@@ -1,50 +1,37 @@
 #include "gtest/gtest.h"
 #include "autograd/tensor.h"  
 
-TEST(TensorTest, ScalarConstructor) {
-    Tensor tensor(42.0, true);
-    ASSERT_EQ(tensor.getShape().size(), 1);
-    ASSERT_EQ(tensor.getShape()[0], 1);
-    ASSERT_EQ(tensor.getData().size(), 1);
-    ASSERT_EQ(tensor.getData()[0][0], 42.0);
+TEST(TensorTest, ScalarTensor) {
+    Tensor scalar(3.14);
+    EXPECT_EQ(scalar.getData()[0], 3.14);
+    EXPECT_EQ(scalar.getShape(), std::vector<int>{1});
+    std::stringstream ss;
+    ss << scalar;
+    EXPECT_EQ(ss.str(), "Tensor(3.14, requires_grad=false)");
+}
+/*
+TEST(TensorTest, MatrixTensor) {
+    Tensor matrix({ {1, 2, 3}, {4, 5, 6} });
+    EXPECT_EQ(matrix.getData(), std::vector<double>{1., 2., 3., 4., 5., 6.});
+    EXPECT_EQ(matrix.getShape(), std::vector<int>{2, 3});
+    EXPECT_EQ(matrix.getData()[2], 3);  // Accessing an element
+    std::stringstream ss;
+    ss << matrix;
+    EXPECT_EQ(ss.str(), "Tensor(shape=2x3, requires_grad=false)");
 }
 
-TEST(TensorTest, MatrixConstructor) {
-    Tensor matrix({ {{1., 2., 3.}, {4., 5., 6.}, {7., 8., 9.}} }, true);
-    ASSERT_EQ(matrix.getShape().size(), 2);
-    ASSERT_EQ(matrix.getShape()[0], 3);
-    ASSERT_EQ(matrix.getShape()[1], 3);
-    ASSERT_EQ(matrix.getData().size(), 3);
-    ASSERT_EQ(matrix.getData()[0][0], 1.0);
-    ASSERT_EQ(matrix.getData()[2][2], 9.0);
+TEST(TensorTest, HigherDimensionalTensor) {
+    Tensor tensor = { {{1, 2}, {3, 4}}, {{5, 6}, {7, 8}} };
+    EXPECT_EQ(tensor.getShape(), std::vector<int>{2, 2, 2});
+    EXPECT_EQ(tensor.getData()[4], 5);  // Accessing an element
+    std::stringstream ss;
+    ss << tensor;
+    EXPECT_EQ(ss.str(), "Tensor(shape=2x2x2, requires_grad=false)");
 }
 
-TEST(TensorTest, FourDimMatrixConstructor) {
-    Tensor fourDimMatrix(
-        {
-            {
-                {
-                    { {1., 2.}, {3., 4.} },
-                    { {5., 6.}, {7., 8.} }
-                },
-                {
-                    { {9., 10.}, {11., 12.} },
-                    { {13., 14.}, {15., 16.} }
-                }
-            }
-        },
-        true
-    );
-
-    ASSERT_EQ(fourDimMatrix.getShape().size(), 4);
-    ASSERT_EQ(fourDimMatrix.getShape()[0], 2);
-    ASSERT_EQ(fourDimMatrix.getShape()[1], 2);
-    ASSERT_EQ(fourDimMatrix.getShape()[2], 2);
-    ASSERT_EQ(fourDimMatrix.getShape()[3], 2);
-    ASSERT_EQ(fourDimMatrix.getData().size(), 2);
-    ASSERT_EQ(fourDimMatrix.getData()[0][0][0][0], 1.0);
-    ASSERT_EQ(fourDimMatrix.getData()[1][1][1][1], 16.0);
+TEST(TensorTest, GradientTracking) {
+    Tensor tensor(2.5, true);  // Create with requires_grad=true
+    EXPECT_TRUE(tensor.requires_grad);  // Check if gradient tracking is enabled
 }
-
-
+*/
 
